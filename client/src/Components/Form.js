@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Field, withFormik} from 'formik'
+import {Form, Formik, Field, withFormik} from 'formik'
 import * as Yup from "yup";
 
 
@@ -28,6 +28,17 @@ class UserForm extends React.Component {
     }
 }
 
+const UserFormik = withFormik({
+    mapPropsToValues(values){
+        return {
+            name: values.nam || '',
+        }
+    }
+    
+
+
+})(UserForm)
+
  
 
-export default UserForm;
+export default UserFormik;
