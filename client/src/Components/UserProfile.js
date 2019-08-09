@@ -4,7 +4,7 @@ const UserProfile = (props) => {
     console.log('props in UserPorfile', props)
 
     return (
-        <div></div>
+        <div>{props.data.name}</div>
     )
 }
 

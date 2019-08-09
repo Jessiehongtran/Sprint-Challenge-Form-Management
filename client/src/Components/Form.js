@@ -14,31 +14,21 @@ class UserForm extends React.Component {
             users: []
         }
 
-    
+    }
 
-    const getUser = () => {
+    componentDidMount(){
         Axios
         .get(`http://localhost:5000/api/restricted/data`)
         .then(
-            res => console.log('get', res)
+            res => 
+            // console.log('getdata', res.data)
+            // console.log("test state", this.setState({users: res.data}))
+            this.setState({users: res.data})
         )
         .catch(
             err => console.log(err)
         )
     }
-}
-
-    
-
-    // componentDidMount(a){
-    //     if (this.props.status) {
-    //         this.setState([...users, this.props.status]);
-    //       }
-    //     }
-    // }
-
-
-
 
     render(){
         console.log('props in render', this.props);
