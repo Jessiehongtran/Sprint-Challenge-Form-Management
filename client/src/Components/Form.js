@@ -1,5 +1,6 @@
 import React from 'react';
-import {Form, Formik, Field, withFormik} from 'formik'
+import Axios from 'axios';
+import {Form, Field, withFormik} from 'formik'
 import * as Yup from "yup";
 
 
@@ -9,8 +10,26 @@ class UserForm extends React.Component {
         console.log('props in UserForm', props)
         this.state = {
             name: "Hong",
-            // user: []
+            users: []
         }
+    }
+
+    componentDidMount(){
+        this.fetchUser()
+    }
+
+    fetchUser = () => {
+        Axios
+        .post(`http://localhost:5000/api/register`, {
+            name: "Your name",
+            password: "password"
+        })
+        .then(
+            res => console.log('response in axios', res)
+        )
+        .catch(
+            err => console.log(err)
+        )
     }
 
 
@@ -26,8 +45,10 @@ class UserForm extends React.Component {
                     
                     <Field type="text" name="password" placeholder="Password"/>
                     {this.props.touched.password && this.props.errors.password && <p>{this.props.errors.password}</p>}
+
+                    <button>Submit!</button>
                 </Form>
-                <button>Submit!</button>
+                
             </div>
         )
     }
