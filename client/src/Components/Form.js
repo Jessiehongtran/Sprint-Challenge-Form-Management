@@ -9,7 +9,7 @@ class UserForm extends React.Component {
         console.log('props in UserForm', props)
         this.state = {
             name: "Hong",
-            user: []
+            // user: []
         }
     }
 
@@ -23,7 +23,9 @@ class UserForm extends React.Component {
                 <Form>
                     <Field type="text" name="name" placeholder="Username" />
                     {this.props.touched.name && this.props.errors.name && <p>{this.props.errors.name}</p>}
+                    
                     <Field type="text" name="password" placeholder="Password"/>
+                    {this.props.touched.password && this.props.errors.password && <p>{this.props.errors.password}</p>}
                 </Form>
                 <button>Submit!</button>
             </div>
@@ -34,14 +36,14 @@ class UserForm extends React.Component {
 const UserFormik = withFormik({
     mapPropsToValues(values){
         return {
-            name: values.nam || '',
+            name: values.name || '',
             password: values.password || '',
         }
     },
 
     validationSchema: Yup.object().shape({
         name: Yup.string().required('Name is required'),
-        password: Yup.string().min(8).required('Password is not strong')
+        password: Yup.string().min(8).required('Password is required')
     })
     
 
