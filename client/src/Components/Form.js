@@ -2,6 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import {Form, Field, withFormik} from 'formik'
 import * as Yup from "yup";
+import UserProfile from './UserProfile'
 
 
 class UserForm extends React.Component {
@@ -9,27 +10,9 @@ class UserForm extends React.Component {
         super(props);
         console.log('props in UserForm', props)
         this.state = {
-            name: "Hong",
+            title: "Hong",
             users: []
         }
-    }
-
-    componentDidMount(){
-        this.fetchUser()
-    }
-
-    fetchUser = () => {
-        Axios
-        .post(`http://localhost:5000/api/register`, {
-            name: "Your name",
-            password: "password"
-        })
-        .then(
-            res => console.log('response in axios', res)
-        )
-        .catch(
-            err => console.log(err)
-        )
     }
 
 
@@ -38,17 +21,17 @@ class UserForm extends React.Component {
         console.log('props in render', this.props)
         return (
             <div>
-                <h1>Form created by {this.state.name}</h1>
+                <h1>Form created by {this.state.title}</h1>
                 <Form>
-                    <Field type="text" name="name" placeholder="Username" />
-                    {this.props.touched.name && this.props.errors.name && <p>{this.props.errors.name}</p>}
+                    <Field type="text" name="username" placeholder="Username" />
+                    {this.props.touched.username && this.props.errors.username && <p>{this.props.errors.username}</p>}
                     
                     <Field type="text" name="password" placeholder="Password"/>
                     {this.props.touched.password && this.props.errors.password && <p>{this.props.errors.password}</p>}
 
                     <button>Submit!</button>
                 </Form>
-                
+                {this.state.users.map(user => <UserProfile data={user}/> )}
             </div>
         )
     }
@@ -57,15 +40,27 @@ class UserForm extends React.Component {
 const UserFormik = withFormik({
     mapPropsToValues(values){
         return {
-            name: values.name || '',
+            username: values.username || '',
             password: values.password || '',
         }
     },
 
     validationSchema: Yup.object().shape({
-        name: Yup.string().required('Name is required'),
+        username: Yup.string().required('Name is required'),
         password: Yup.string().min(8).required('Password is required')
-    })
+    }),
+
+    handleSubmit(values, {setStatus}) {
+        console.log('submit', values)
+        Axios
+        .post(`http://localhost:5000/api/register`, values)
+        .then(
+            res => console.log('res in axios', res)
+        )
+        .catch(
+            err => console.log(err)
+        )
+    }
     
 
 
