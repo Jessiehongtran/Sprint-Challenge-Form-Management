@@ -13,12 +13,35 @@ class UserForm extends React.Component {
             title: "Hong",
             users: []
         }
+
+    
+
+    const getUser = () => {
+        Axios
+        .get(`http://localhost:5000/api/restricted/data`)
+        .then(
+            res => console.log('get', res)
+        )
+        .catch(
+            err => console.log(err)
+        )
     }
+}
+
+    
+
+    // componentDidMount(a){
+    //     if (this.props.status) {
+    //         this.setState([...users, this.props.status]);
+    //       }
+    //     }
+    // }
+
 
 
 
     render(){
-        console.log('props in render', this.props)
+        console.log('props in render', this.props);
         return (
             <div>
                 <h1>Form created by {this.state.title}</h1>
@@ -31,6 +54,7 @@ class UserForm extends React.Component {
 
                     <button>Submit!</button>
                 </Form>
+                {console.log('users',this.state.users)}
                 {this.state.users.map(user => <UserProfile data={user}/> )}
             </div>
         )
@@ -50,12 +74,14 @@ const UserFormik = withFormik({
         password: Yup.string().min(8).required('Password is required')
     }),
 
-    handleSubmit(values, {setStatus}) {
+    handleSubmit(values) {
         console.log('submit', values)
         Axios
         .post(`http://localhost:5000/api/register`, values)
         .then(
-            res => console.log('res in axios', res)
+            res => 
+            console.log('res in axios', res.config.data)
+            
         )
         .catch(
             err => console.log(err)
